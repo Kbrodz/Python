@@ -1,7 +1,7 @@
 """
     "title": "World Bank Downloader"
     "description": "A Python script that download the data from World Bank"
-    "version": "1.0.0"
+    "version": "1.0.1"
     "author": "Konrad Brodziak"
 """
 
