@@ -8,15 +8,22 @@
 import urllib.request as ur
 from bs4 import BeautifulStoneSoup as bs
 
-def main():
-    url='https://api.worldbank.org/v2/country/afg/indicator'
-    series_code='/NY.GDP.MKTP.CN'
-    web=str(url)+str(series_code)
-    html=ur.urlopen(web).read()
-    xml=bs(html)
+class Downloader:
+    def __init__(self, url, series_code):
+        self.url = url
+        self.series_code = series_code
 
-    with open('WorldBank.xml', 'w') as f:
-        f.write(str(xml))
+    def main(self):
+        '''Get the data from World Bank and save to .xml file'''
+        web=str(self.url)+str(self.series_code)
+        html=ur.urlopen(web).read()
+
+        xml=bs(html)
+        with open('WorldBank.xml', 'w', encoding='utf-8') as file_xml:
+            file_xml.write(str(xml))
 
 if __name__ == '__main__':
-    main()
+    Downloader(
+        'https://api.worldbank.org/v2/country/afg/indicator',
+        '/NY.GDP.MKTP.CN'
+        ).main()
