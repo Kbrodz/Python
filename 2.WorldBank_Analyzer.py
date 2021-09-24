@@ -1,7 +1,7 @@
 """
     "title": "World Bank Analyzer"
     "description": "A Python script that analyse the data from World Bank"
-    "version": "1.0.0"
+    "version": "1.0.1"
     "author": "Konrad Brodziak"
 """
 
@@ -12,32 +12,18 @@ from pmdarima.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import numpy as np
 
-def main():
-    with open('WorldBank.xml', 'r') as f:
-        data = f.read()
-    # Passing the stored data inside
-    # the beautifulsoup parser, storing
-    # the returned object
-    bs_data = bs(data)
- 
-    # Finding all instances of tag
-    # `wb:date` & `wb:value`
-    wb_dates = bs_data.findAll('wb:date')
-    wb_values = bs_data.findAll('wb:value')
+xml_source=open('WorldBank.xml').read()
 
-    #Create list of `dates_list`
-    dates_list = []
-    for list in wb_dates:
-        dates_list.append(list.get_text())
-    #Create list of `values_list`
-    values_list = []
-    for list in wb_values:
-        values_list.append(list.get_text())
-    #Reverse lists
-    dates=dates_list[::-1]
-    values=values_list[::-1]
-    values_a=values[0:5]
-    df=pd.DataFrame({'Date': dates, 'Values': values})
+def main():
+    #Create reverse of list of `dates_list`
+    wbd=bs(xml_source).findAll('wb:date')
+    dates_list = [list.get_text() for list in wbd][::-1]
+
+    #Create reverse of list of `values_list`
+    wbv=bs(xml_source).findAll('wb:value')
+    values_list = [list.get_text() for list in wbv][::-1]
+
+    df=pd.DataFrame({'Date': dates_list, 'Values': values_list})
 
     df_head=df.head()
     df_tail=df.tail()
@@ -57,7 +43,6 @@ def main():
                       stepwise=True, 
                       maxiter = 100, )
     print(arima1.summary())
-    
 
 if __name__ == '__main__':
     main()
