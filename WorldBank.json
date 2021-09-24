@@ -1,0 +1,6 @@
+{
+    "url": "https://api.worldbank.org/v2/country",
+    "countryiso3code": "/afg",
+    "indicator": "/indicator",
+    "seriescode": "/NY.GDP.MKTP.CN"
+}
